@@ -6,6 +6,11 @@
     <uses-feature android:glEsVersion="0x00030002" android:required="true" />
     <uses-feature android:name="android.hardware.vr.headtracking" android:version="1" android:required="true" />
 
+    <!-- Declaring optional hand tracking stops the shell from refusing to launch
+         the app when the controllers are asleep. -->
+    <uses-feature android:name="oculus.software.handtracking" android:required="false" />
+    <uses-permission android:name="com.oculus.permission.HAND_TRACKING" />
+
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" tools:ignore="AllFilesAccessPolicy,ScopedStorage" />
@@ -35,6 +40,8 @@
         <meta-data android:name="com.samsung.android.vr.application.mode" android:value="vr_only" />
         <meta-data android:name="com.oculus.supportedDevices" android:value="quest|quest2|quest3|questpro|cambria|eureka" />
         <meta-data android:name="com.oculus.vr.focusaware" android:value="true" />
+        <meta-data android:name="com.oculus.handtracking.frequency" android:value="LOW" />
+        <meta-data android:name="com.oculus.handtracking.version" android:value="V2.0" />
 
         <activity
             android:name="com.vdriftvr.VDriftVRActivity"

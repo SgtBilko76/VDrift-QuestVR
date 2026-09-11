@@ -28,9 +28,9 @@ SKIP_DIRS = {".svn", "test", "__pycache__"}
 SKIP_FILES = {"SConscript", "SConscript.no_data", "Makefile", ".cvsignore"}
 SKIP_EXT = {".xcf", ".blend", ".blend1", ".psd", ".bak", ".o", ".obj", ".pyc"}
 
-# VDrift's "minimal" install (SConstruct minimal=1): three cars and two tracks.
-MINIMAL_CARS = {"XS", "TL2", "F1", "TC6", "360"}
-MINIMAL_TRACKS = {"paulricard88", "weekend", "estoril88"}
+# VDrift's "minimal" install (SConstruct minimal=1): the menu room, the default track, and a handful of cars and tracks.
+MINIMAL_CARS = {"XS", "TL2", "TC6", "360", "F1-02"}
+MINIMAL_TRACKS = {".room", ".garage", "ruudskogen", "paulricard88", "weekend", "estoril88"}
 
 copied = 0
 
@@ -102,9 +102,12 @@ def main():
             copy_tree(src, os.path.join(data_dst, entry))
         print("  staged", entry)
 
-    # VR overlay: vr.cfg and the .vdrift defaults, kept under templates/ on the
-    # device too so the app can re-seed a wiped settings dir.
-    copy_tree(OVERLAY, os.path.join(STAGE, "templates"))
+    # VR overlay: templates/data goes over the data tree (GLSL ES fixes to the
+    # shaders, VR config defaults); vr.cfg and the .vdrift defaults are kept
+    # under templates/ on the device too so the app can re-seed a wiped
+    # settings dir.
+    copy_tree(os.path.join(OVERLAY, "data"), data_dst)
+    copy_tree(os.path.join(OVERLAY, ".vdrift"), os.path.join(STAGE, "templates", ".vdrift"))
     copy_file(os.path.join(OVERLAY, "vr.cfg"), os.path.join(STAGE, "vr.cfg"))
 
     total = 0
