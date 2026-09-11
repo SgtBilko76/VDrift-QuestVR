@@ -192,6 +192,9 @@ extern "C" void* AppThreadFunction(void* parm)
         if (gUiHeight > 2048) gUiHeight = 2048;
         gUiWidth = gUiHeight * 4 / 3;
 
+        /* The name other players see; VDrift has no text entry, so it comes from vr.cfg. */
+        setenv("VDRIFT_PLAYER_NAME", VrConfigGetStr("player_name", "Quest Player"), 1);
+
         VrStereoLoadConfig();
         VrInputInit();
         VrPerfInit();

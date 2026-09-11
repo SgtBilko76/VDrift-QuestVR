@@ -1,0 +1,202 @@
+name = Multiplayer
+oncancel = SyncSettings gui.page:Main
+
+
+[ bg-top ]
+image = white.png
+hue = 0.889
+sat = 0.068
+val = 0.173
+opacity = 0.5
+left = 0
+right = 0
+top = 0
+height = 0.14
+layer = -1
+
+
+[ bg-bottom ]
+image = white.png
+hue = 0.889
+sat = 0.068
+val = 0.173
+opacity = 0.5
+left = 0
+right = 0
+bottom = 0
+height = 0.08
+layer = -1
+
+
+[ tooltip ]
+text = none
+fontsize = 0.03
+left = 0
+right = 0
+bottom = 0.04
+height = 0.04
+
+
+[ title ]
+text = Multiplayer
+fontsize = 0.05
+align = left
+left = 0.31
+width = 0.4
+top = 0.05
+height = 0.06
+
+
+[ server-lbl ]
+text = Server
+fontsize = 0.03
+align = right
+left = 0.01
+width = 0.28
+top = 0.18
+height = 0.04
+
+[ server-prv ]
+text = <
+fontsize = 0.03
+align = left
+onselect = multiplayer.server.prev
+onmoveleft = multiplayer.server.prev
+onmoveright = multiplayer.server.next
+onmoveup = back-btn
+onmovedown = connect-btn
+onfocus = server-prv.opacity:1 server-nxt.opacity:1 server-val.sat:0.56 tooltip.text:"Pick a server from servers.config in the settings directory."
+onblur = server-prv.opacity:0 server-nxt.opacity:0 server-val.sat:0.0
+focus = true
+hue = 0.56
+sat = 0.56
+val = 1.0
+opacity = 0.0
+left = 0.31
+width = 0.14
+top = 0.18
+height = 0.04
+
+[ server-nxt ]
+text = >
+fontsize = 0.03
+align = right
+onselect = multiplayer.server.next
+onmoveleft = multiplayer.server.prev
+onmoveright = multiplayer.server.next
+onmoveup = back-btn
+onmovedown = connect-btn
+onfocus = server-prv.opacity:1 server-nxt.opacity:1 server-val.sat:0.56 tooltip.text:"Pick a server from servers.config in the settings directory."
+onblur = server-prv.opacity:0 server-nxt.opacity:0 server-val.sat:0.0
+focus = false
+hue = 0.56
+sat = 0.56
+val = 1.0
+opacity = 0.0
+left = 0.45
+width = 0.14
+top = 0.18
+height = 0.04
+
+[ server-val ]
+text = multiplayer.server.str
+fontsize = 0.03
+hue = 0.56
+left = 0.31
+width = 0.28
+top = 0.18
+height = 0.04
+
+
+[ status-lbl ]
+text = net.status
+fontsize = 0.025
+align = left
+left = 0.05
+right = 0.05
+top = 0.26
+height = 0.04
+
+
+[ connect-btn ]
+text = Connect
+fontsize = 0.03
+onselect = SyncSettings StartMultiplayer
+onmoveup = server-prv
+onmovedown = disconnect-btn
+onfocus = connect-btn.sat:0.56 tooltip.text:"Join the server with the car chosen in the Garage."
+onblur = connect-btn.sat:0.0
+focus = false
+hue = 0.56
+left = 0.31
+width = 0.29
+top = 0.34
+height = 0.04
+
+[ connect-bg ]
+image = white.png
+hue = 0.889
+sat = 0.068
+val = 0.173
+opacity = 0.5
+left = 0.30
+width = 0.30
+top = 0.341
+height = 0.038
+layer = -1
+
+
+[ disconnect-btn ]
+text = Disconnect
+fontsize = 0.03
+onselect = StopMultiplayer
+onmoveup = connect-btn
+onmovedown = back-btn
+onfocus = disconnect-btn.sat:0.56 tooltip.text:"Leave the server."
+onblur = disconnect-btn.sat:0.0
+focus = false
+hue = 0.56
+left = 0.31
+width = 0.29
+top = 0.38
+height = 0.04
+
+[ disconnect-bg ]
+image = white.png
+hue = 0.889
+sat = 0.068
+val = 0.173
+opacity = 0.5
+left = 0.30
+width = 0.30
+top = 0.381
+height = 0.038
+layer = -1
+
+
+[ back-btn ]
+text = Back
+fontsize = 0.03
+onselect = SyncSettings gui.page:Main
+onmoveup = disconnect-btn
+onmovedown = server-prv
+onfocus = back-btn.sat:0.56 tooltip.text:"Return to the Main menu. You stay connected."
+onblur = back-btn.sat:0.0
+focus = false
+hue = 0.56
+left = 0.31
+width = 0.29
+top = 0.42
+height = 0.04
+
+[ back-bg ]
+image = white.png
+hue = 0.889
+sat = 0.068
+val = 0.173
+opacity = 0.5
+left = 0.30
+width = 0.30
+top = 0.421
+height = 0.038
+layer = -1

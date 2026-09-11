@@ -18,6 +18,7 @@ if ($Full -or -not $hasData) {
     Write-Host "Refreshing settings, shaders and templates only (use -Full for everything)"
     adb push --sync "$stage\data\settings" /sdcard/VDriftVR/data/
     adb push --sync "$stage\data\shaders" /sdcard/VDriftVR/data/
+    adb push --sync "$stage\data\skins" /sdcard/VDriftVR/data/
     adb push --sync "$stage\templates" /sdcard/VDriftVR/
     adb push "$stage\vr.cfg" /sdcard/VDriftVR/vr.cfg
 }

@@ -30,7 +30,7 @@ set(TP_DIR ${CMAKE_CURRENT_SOURCE_DIR}/third_party)
 set(GEN_INC ${CMAKE_BINARY_DIR}/gen_include)
 file(MAKE_DIRECTORY ${GEN_INC})
 
-include(cmake/deps.cmake)            # zlib, libpng, ogg, vorbis, bullet3
+include(cmake/deps.cmake)            # zlib, libpng, ogg, vorbis, bullet3, enet
 include(cmake/vdrift_sources.cmake)  # VDRIFT_GAME_SOURCES
 
 # ---------------------------------------------------------------------------
@@ -72,6 +72,7 @@ add_library(vdriftvr SHARED
     ${VD_SRC}/android/eventsystem_android.cpp
     ${VD_SRC}/android/forcefeedback_android.cpp
     ${VD_SRC}/android/http_stub.cpp
+    ${VD_SRC}/net/netclient.cpp
     ${VDRIFT_GAME_SOURCES}
 )
 set_source_files_properties(${VD_SRC}/main.cpp PROPERTIES COMPILE_DEFINITIONS "main=VdriftMain")
@@ -94,6 +95,7 @@ target_link_libraries(vdriftvr PRIVATE
     vd_bullet
     vorbisfile vorbis ogg
     png zlib
+    enet
     OpenXR::openxr_loader
     GLESv3
     EGL

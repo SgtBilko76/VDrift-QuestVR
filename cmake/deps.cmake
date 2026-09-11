@@ -77,3 +77,10 @@ foreach(t BulletDynamics BulletCollision LinearMath BulletSoftBody)
         target_compile_options(${t} PRIVATE -Wno-everything)
     endif()
 endforeach()
+
+# ---------------------------------------------------------------- enet (multiplayer transport)
+add_subdirectory(${TP_DIR}/enet EXCLUDE_FROM_ALL)
+# Only .../include: .../include/enet holds time.h and list.h, which would shadow
+# the libc / libc++ headers of the same name.
+target_include_directories(enet PUBLIC ${TP_DIR}/enet/include)
+target_compile_options(enet PRIVATE ${DEP_C_QUIET})

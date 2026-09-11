@@ -1,0 +1,39 @@
+# systemd unit for the VDrift dedicated server.
+#
+#   sudo cp vdrift-server.service /etc/systemd/system/
+#   sudo systemctl daemon-reload && sudo systemctl enable --now vdrift-server
+#   journalctl -u vdrift-server -f
+#
+# Assumes setup-linux-server.sh was run as user "vdserver" with the default
+# PREFIX (~/vdserver) and the VDriftVR checkout at ~/VDriftVR.
+
+[Unit]
+Description=VDrift dedicated multiplayer server
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=vdserver
+Group=vdserver
+Environment=HOME=/home/vdserver
+Environment=TRACKS=ruudskogen,estoril88,paulricard88
+Environment=LAPS=3
+Environment=BOTS=3
+WorkingDirectory=/home/vdserver
+ExecStart=/home/vdserver/VDriftVR/tools/server/run-server.sh
+Restart=always
+RestartSec=2
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=/home/vdserver/.vdrift
+ProtectKernelTunables=true
+ProtectControlGroups=true
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
