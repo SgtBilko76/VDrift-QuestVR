@@ -32,8 +32,8 @@ stereo behind them, races in stereo with head tracking on every camera, the HUD 
 head-locked panel, sound, rumble. The minimal data set (5 tracks, 5 cars) holds the 72 Hz
 refresh rate at 1.2x supersampling and 4x MSAA.
 
-Not done yet: an on-screen keyboard (player name), the download manager, translations,
-multiview rendering (the scene is culled and drawn once per eye).
+Not done yet: the download manager, translations, multiview rendering (the scene is culled
+and drawn once per eye). VDrift's GUI has no text fields, so no on-screen keyboard is needed.
 
 ## Layout
 
