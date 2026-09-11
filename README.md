@@ -102,6 +102,26 @@ adb logcat -s VDriftVR:V TBXR:V AndroidRuntime:E DEBUG:E
 `tools\run.ps1 -Build` does all of the above. VDrift's own log is at
 `/sdcard/VDriftVR/.vdrift/logs/log.txt`; its stdout/stderr also go to logcat.
 
+## Multiplayer
+
+Races run on a dedicated Linux server (`tools/server/`, built from `server/CMakeLists.txt`),
+which owns the physics: every car, including collisions between players, is simulated
+there, and clients receive a state snapshot of every car 30 times a second. The local car
+is predicted from the player's own inputs and corrected against the server, remote cars
+and bots are shown from the server's state.
+
+In the headset, **Multiplayer** on the main menu picks a server (the list is
+`/sdcard/VDriftVR/.vdrift/servers.config`, one `name = host:port` per line; the name
+other players see is `player_name` in `vr.cfg`) and connects with the car chosen in the
+Garage. The lobby status shows on that page; when the server starts a race the track and
+grid load automatically, the race runs in stereo like a single-player one, and after the
+results you are back in the garage, still connected, until the next race. Disconnect
+leaves the server.
+
+See `tools/server/README.md` for hosting: `setup-linux-server.sh`, `run-server.sh`
+(track rotation, laps, bots), a systemd unit, and a join probe for testing without a
+headset.
+
 ## Settings
 
 Edit `/sdcard/VDriftVR/vr.cfg` and restart the app:
@@ -140,6 +160,9 @@ on the eye buffers by `msaa`.
 - **Input**: the Touch controllers are a virtual joystick (index 0) plus a pointer on the menu
   screen and a few synthetic keys; `templates/.vdrift/controls.config` binds them and can be
   changed in Options → Controls like any joystick.
+- **Multiplayer**: `src/net` in VDrift: `netprotocol.h` (ENet, two channels), `netclient`
+  (the game side), `netserver` + `server_main` (the dedicated server); the server build
+  links VDrift's physics/track/AI code with a generated null GL layer.
 - **Not available**: the in-game car/track download manager (no libcurl), screenshots
   (`adb exec-out screencap`), gettext translations (menus are in English).
 
