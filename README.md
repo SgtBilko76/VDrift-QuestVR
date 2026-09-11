@@ -25,6 +25,16 @@ The race is rendered in stereo with head tracking on whatever camera VDrift has 
 floating screen in front of you (curved when the runtime supports cylinder layers), drawn
 over the 3D garage scene.
 
+## Status
+
+Runs on a Quest 3 (Horizon OS, Adreno 740): menus on the floating screen, garage scene in
+stereo behind them, races in stereo with head tracking on every camera, the HUD as a
+head-locked panel, sound, rumble. The minimal data set (5 tracks, 5 cars) holds the 72 Hz
+refresh rate at 1.2x supersampling and 4x MSAA.
+
+Not done yet: an on-screen keyboard (player name), the download manager, translations,
+multiview rendering (the scene is culled and drawn once per eye).
+
 ## Layout
 
 | Path | What |
