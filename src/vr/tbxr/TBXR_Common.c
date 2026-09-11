@@ -2032,7 +2032,6 @@ void TBXR_FrameSetup()
 	memset(&(gAppState.FrameState), 0, sizeof(XrFrameState));
 	gAppState.FrameState.type = XR_TYPE_FRAME_STATE;
 
-	ALOGV("xrWaitFrame");
 	OXR(xrWaitFrame(gAppState.Session, NULL, &gAppState.FrameState));
 
 	// Get the HMD pose, predicted for the middle of the time period during which
@@ -2042,7 +2041,6 @@ void TBXR_FrameSetup()
 	XrFrameBeginInfo beginFrameDesc = {};
 	beginFrameDesc.type = XR_TYPE_FRAME_BEGIN_INFO;
 	beginFrameDesc.next = NULL;
-	ALOGV("xrBeginFrame");
 	OXR(xrBeginFrame(gAppState.Session, &beginFrameDesc));
 
 	//Game specific frame setup stuff called here
