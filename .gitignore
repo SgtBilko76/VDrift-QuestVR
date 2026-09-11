@@ -1,0 +1,9 @@
+third_party/
+stage/
+android/.gradle/
+android/app/build/
+android/app/.cxx/
+android/local.properties
+android/build/
+dist/
+*.log

@@ -1,0 +1,101 @@
+plugins {
+    id 'com.android.application'
+}
+
+// Self-contained build:  tools\make_release.ps1
+// Packs the staged game data into the APK as assets/gamedata.zip, which the
+// activity unpacks to /sdcard/VDriftVR on first run. Off by default.
+def vdvrBundleData = project.hasProperty('vdvrBundleData') && project.property('vdvrBundleData').toString().toBoolean()
+
+android {
+    namespace 'com.vdriftvr'
+    compileSdk 34
+    ndkVersion '27.2.12479018'
+
+    defaultConfig {
+        applicationId 'com.vdriftvr'
+        minSdk 29
+        targetSdk 32
+        versionCode 1
+        versionName '0.1.0'
+
+        externalNativeBuild {
+            cmake {
+                // One shared library, so the static STL is fine.
+                arguments '-DANDROID_STL=c++_static', '-DANDROID_PLATFORM=android-29',
+                          '-DANDROID_ARM_NEON=ON'
+                targets 'vdriftvr'
+            }
+        }
+        ndk {
+            abiFilters 'arm64-v8a'
+        }
+    }
+
+    sourceSets {
+        main {
+            if (vdvrBundleData) {
+                assets.srcDirs += "${buildDir}/bundled-assets"
+            }
+        }
+    }
+
+    androidResources {
+        noCompress 'zip'
+    }
+
+    externalNativeBuild {
+        cmake {
+            path file('../../CMakeLists.txt')
+            version '3.22.1'
+        }
+    }
+
+    // OpenXR loader (headers + libopenxr_loader.so) from the Maven AAR via prefab.
+    buildFeatures {
+        prefab true
+    }
+
+    signingConfigs {
+        debug {
+            storeFile file(System.getProperty('user.home') + '/.android/debug.keystore')
+            storePassword 'android'
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+        }
+    }
+
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.debug
+            debuggable true
+            jniDebuggable true
+        }
+        release {
+            // Sideloaded build: the debug key keeps upgrades in place simple.
+            signingConfig signingConfigs.debug
+            debuggable false
+            minifyEnabled false
+        }
+    }
+
+    packagingOptions {
+        jniLibs {
+            useLegacyPackaging true
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+}
+
+dependencies {
+    implementation 'org.khronos.openxr:openxr_loader_for_android:1.1.63'
+}
