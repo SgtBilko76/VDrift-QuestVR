@@ -45,7 +45,8 @@ int main(int argc, char ** argv)
 	while (std::chrono::duration<double>(std::chrono::steady_clock::now() - start).count() < seconds)
 	{
 		ENetEvent ev;
-		while (enet_host_service(client, &ev, 50) > 0)
+		std::this_thread::sleep_for(std::chrono::milliseconds(5));
+		while (enet_host_service(client, &ev, 0) > 0)
 		{
 			if (ev.type == ENET_EVENT_TYPE_CONNECT)
 			{
@@ -58,7 +59,7 @@ int main(int argc, char ** argv)
 				ci.name = car; ci.variant = car; ci.paint = "default"; ci.tire = "default"; ci.wheel = "default";
 				ci.hsv[0] = 0.1f; ci.hsv[1] = 0.8f; ci.hsv[2] = 0.9f; ci.ailevel = 1.0f;
 				w.carinfo(ci);
-				w.aids(DrivingAids());
+				DrivingAids aids; aids.tcs = false; aids.abs = false; w.aids(aids);
 				enet_peer_send(peer, CHANNEL_CONTROL, enet_packet_create(w.buf.data(), w.buf.size(), ENET_PACKET_FLAG_RELIABLE));
 			}
 			else if (ev.type == ENET_EVENT_TYPE_RECEIVE)
@@ -99,7 +100,13 @@ int main(int argc, char ** argv)
 							unsigned id = r.u8(); r.u32();
 							std::vector<float> in; ReadInputs(r, in);
 							std::string st = r.bytes();
-							const float * f = (const float *)st.data();
+							// VDrift's binary serializer writes big endian
+							float f[15];
+							for (int k = 0; k < 15 && st.size() >= 15 * 4; ++k)
+							{
+								unsigned char b[4] = {(unsigned char)st[k*4+3], (unsigned char)st[k*4+2], (unsigned char)st[k*4+1], (unsigned char)st[k*4]};
+								memcpy(&f[k], b, 4);
+							}
 							if (st.size() >= 15 * 4)
 								printf("  car%u (%.1f %.1f %.1f) v=%.1f", id, f[9], f[10], f[11],
 									sqrtf(f[12]*f[12] + f[13]*f[13] + f[14]*f[14]));
@@ -120,7 +127,7 @@ int main(int argc, char ** argv)
 			w.u8(MSG_INPUT);
 			w.u32(last_tick);
 			std::vector<float> in(CarInput::INVALID, 0.0f);
-			in[CarInput::THROTTLE] = 0.3f;   // creep forward so the car state changes
+			in[CarInput::THROTTLE] = 1.0f;   // drive off so the car state changes
 			WriteInputs(w, in);
 			enet_peer_send(peer, CHANNEL_STATE, enet_packet_create(w.buf.data(), w.buf.size(), ENET_PACKET_FLAG_UNSEQUENCED));
 		}
