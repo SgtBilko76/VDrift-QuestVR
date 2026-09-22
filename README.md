@@ -1,5 +1,8 @@
 # VDrift VR — VDrift on Meta Quest (standalone, OpenXR)
 
+[![Sponsor](https://img.shields.io/badge/Sponsor-SgtBilko76-ea4aaa?logo=githubsponsors&logoColor=white)](https://github.com/sponsors/SgtBilko76)
+
+
 A native Android port of [VDrift](https://vdrift.net/) for Meta Quest headsets. VDrift's own
 shader-based GL2 renderer runs on **OpenGL ES 3.2** directly (no gl4es); stereo rendering, head
 tracking and controller input go through OpenXR using the Team Beef framework from
