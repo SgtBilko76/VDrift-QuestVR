@@ -282,6 +282,10 @@ JNIEXPORT void JNICALL Java_com_vdriftvr_VDriftVRLib_onStart(JNIEnv* env, jobjec
 {
     ALOGV("    VDriftVRLib::onStart()");
 
+    // onStart runs again after every onStop: drop the previous activity reference.
+    if (jniCallbackObj) {
+        env->DeleteGlobalRef(jniCallbackObj);
+    }
     jniCallbackObj = (jobject)env->NewGlobalRef(obj1);
     jclass callbackClass = env->GetObjectClass(jniCallbackObj);
     android_shutdown = env->GetMethodID(callbackClass, "shutdown", "()V");

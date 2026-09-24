@@ -39,6 +39,13 @@
 
         <meta-data android:name="com.samsung.android.vr.application.mode" android:value="vr_only" />
         <meta-data android:name="com.oculus.supportedDevices" android:value="quest|quest2|quest3|questpro|cambria|eureka" />
+
+        <!-- PICO OS marks VR applications with this rather than a category, and
+             ignores the com.oculus entries above the way Horizon OS ignores this
+             one. The OpenXR loader is the generic Khronos build and the framework
+             picks its extensions and controller bindings from the runtime it finds,
+             so one APK runs on both. -->
+        <meta-data android:name="pvr.app.type" android:value="vr" />
         <meta-data android:name="com.oculus.vr.focusaware" android:value="true" />
         <meta-data android:name="com.oculus.handtracking.frequency" android:value="LOW" />
         <meta-data android:name="com.oculus.handtracking.version" android:value="V2.0" />
@@ -60,6 +67,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="com.oculus.intent.category.VR" />
                 <category android:name="org.khronos.openxr.intent.category.IMMERSIVE_HMD" />
+                <!-- PICO OS 5 goes through the Khronos category above; older
+                     runtimes only look for this one. -->
+                <category android:name="com.picovr.intent.category.VR" />
             </intent-filter>
         </activity>
     </application>
