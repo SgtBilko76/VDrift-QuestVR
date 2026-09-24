@@ -32,8 +32,14 @@ over the 3D garage scene.
 
 Runs on a Quest 3 (Horizon OS, Adreno 740): menus on the floating screen, garage scene in
 stereo behind them, races in stereo with head tracking on every camera, the HUD as a
-head-locked panel, sound, rumble. The minimal data set (5 tracks, 5 cars) holds the 72 Hz
+head-locked panel, sound, rumble. The minimal data set (4 tracks, 5 cars) holds the 72 Hz
 refresh rate at 1.2x supersampling and 4x MSAA.
+
+**Pico** (Pico 4 / 4 Ultra / Neo 3, PICO OS 5): the same APK. The manifest carries the
+PICO OS entries next to the Meta ones, the Khronos OpenXR loader finds the PICO runtime, and
+the framework enables `XR_BD_controller_interaction` and the PICO controller bindings when
+the runtime offers them. Refresh-rate selection (`refresh`) is Meta-only; PICO runs at its
+system rate.
 
 Not done yet: the download manager, translations, multiview rendering (the scene is culled
 and drawn once per eye). VDrift's GUI has no text fields, so no on-screen keyboard is needed.
@@ -64,8 +70,18 @@ cd E:\VDriftVR\android
 .\gradlew assembleRelease      # -> app\build\outputs\apk\release\app-release.apk
 ```
 
-Both are signed with the local debug key, so either can be sideloaded and one upgrades the
-other in place.
+Without a release key both are signed with the local debug key, so either can be sideloaded
+and one upgrades the other in place. The debug key differs per machine, so for releases put
+a shared key in `android/keystore.properties` (`storeFile`, `storePassword`, `keyAlias`,
+`keyPassword`; ignored by git) and release builds use it.
+
+VDrift is expected next to this repo (`../vdrift`). Elsewhere, pass its path:
+`./gradlew assembleRelease -PvdriftRoot=/path/to/vdrift`. The `quest-port` branch is
+published at [SgtBilko76/vdrift](https://github.com/SgtBilko76/vdrift/tree/quest-port):
+
+```sh
+git clone -b quest-port https://github.com/SgtBilko76/vdrift.git ../vdrift
+```
 
 `third_party/` is not in git. To recreate it: clone
 [bullet3](https://github.com/bulletphysics/bullet3) (3.25),
@@ -77,7 +93,7 @@ into it, and copy `zlib` and `libpng` from `../SpeedDreamsVR/third_party`.
 The data is not in the APK. Stage and push it once:
 
 ```powershell
-python tools\stage_data.py --minimal      # 3 cars, 2 tracks (~180 MB) - or no flag for everything
+python tools\stage_data.py --minimal      # 5 cars, 4 tracks - or no flag for everything (~1.7 GB)
 python tools\stage_data.py --cars XS,TL2 --tracks estoril88
 .\tools\push-data.ps1 -Full               # adb push to /sdcard/VDriftVR
 ```
