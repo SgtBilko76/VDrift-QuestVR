@@ -9,6 +9,8 @@ tracking and controller input go through OpenXR using the Team Beef framework fr
 [QuakeQuest](https://github.com/Team-Beef-Studios/QuakeQuest), the same base as
 [SpeedDreamsVR](../SpeedDreamsVR) and [TorcsVR](../TorcsVR) next door.
 
+![VDrift VR controller mapping](docs/controls.webp)
+
 | Input | Menus | Race |
 |---|---|---|
 | Right hand pointer | move the cursor on the floating screen | — |
