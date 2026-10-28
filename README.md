@@ -1,5 +1,7 @@
 # VDrift VR — VDrift on Meta Quest (standalone, OpenXR)
 
+**Download, install guide, controls and pictures: [portroyale.online/vdrift.html](https://portroyale.online/vdrift.html)**
+
 [![Sponsor](https://img.shields.io/badge/Sponsor-SgtBilko76-ea4aaa?logo=githubsponsors&logoColor=white)](https://github.com/sponsors/SgtBilko76)
 
 
